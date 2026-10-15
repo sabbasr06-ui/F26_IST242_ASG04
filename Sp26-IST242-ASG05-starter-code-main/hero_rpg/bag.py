@@ -25,7 +25,7 @@ class Bag(Generic[T]):
     """
 
     def __init__(self, capacity: int) -> None:
-        self.capacity = int = capacity
+        self.capacity = capacity
         self._items: list[T] = []
 
     def add(self, item: T) -> bool:
@@ -49,15 +49,18 @@ class Bag(Generic[T]):
             True  — item found and removed.
             False — item not present in the bag.
         """
-        pass
+        if item not in self._items:
+            return False
+        self._items.remove(item)
+        return True
 
     def all(self) -> list[T]:
         """Return a shallow copy so the internal list stays protected."""
-        pass
+        return list(self._items)
 
     def is_full(self) -> bool:
         """Return True when no more items can be added."""
-        pass
+        return len(self._items) >= self.capacity
 
     def __len__(self) -> int:
         """Support len(bag)."""
