@@ -31,7 +31,25 @@ class Hero:
     """
 
     def __init__(self, name: str, hero_class: str, max_health: int = 100) -> None:
-        pass
+        self.name = name
+        self.hero_class = hero_class
+
+        self.max_health = max_health
+        self.health = max_health
+
+        self.weapons: list[Weapon] = []
+        self.skills: set[str] = set()
+        self.inventory: Bag[Item] = Bag(10)
+
+        self.stats: dict[str, int] = {
+            "strength": 10,
+            "defense": 10,
+            "agility": 5,
+        }
+        self.kill_counts: Counter[str] = Counter()
+        self.kill_counter: Counter[str] = Counter()
+        self._item_registry: defaultdict[str, list[Item]] = defaultdict(list)
+        self.combat_log: deque[str] = deque(maxlen=10)
 
     # ── Health ────────────────────────────────────────────────────────────────
 
