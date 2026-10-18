@@ -71,7 +71,9 @@ class Hero:
         Returns:
             Actual HP restored (may be less if already near full).
         """
-        pass
+        old_health = self.health
+        self.health = min(self.max_health, self.health + amount)
+        return self.health - old_health
 
     def is_alive(self) -> bool:
         """Return True as long as health is above zero."""
