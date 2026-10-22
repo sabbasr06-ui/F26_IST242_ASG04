@@ -100,7 +100,10 @@ class Hero:
         Returns:
             True if new skill; False if already known.
         """
-        pass
+        if not skill or skill in self.skills:
+            return False
+        self.skills.add(skill)
+        return True
 
     # ── Inventory ─────────────────────────────────────────────────────────────
 
@@ -131,7 +134,7 @@ class Hero:
 
     def total_damage_potential(self) -> int:
         """Sum damage of all currently equipped weapons."""
-        pass
+        return sum(weapon.damage for weapon in self.weapons)
 
     def top_kills(self, n: int = 3) -> list[tuple[str, int]]:
         """
