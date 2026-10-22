@@ -23,3 +23,4 @@ class ItemType(Enum):
     POTION = "Potion"
     ARMOR  = "Armor"
     MISC   = "Misc"
+##

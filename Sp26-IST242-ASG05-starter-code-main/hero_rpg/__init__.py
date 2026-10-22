@@ -14,3 +14,5 @@ from hero_rpg.bag    import Bag
 from hero_rpg.hero   import Hero
 
 __all__ = ["WeaponType", "ItemType", "Weapon", "Item", "Bag", "Hero"]
+
+##
