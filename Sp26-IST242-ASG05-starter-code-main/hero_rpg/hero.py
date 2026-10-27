@@ -37,19 +37,28 @@ class Hero:
         self.max_health = max_health
         self.health = max_health
 
-        self.weapons: list[Weapon] = []
+        self.equipped_weapons: list[Weapon] = Bag(3)
+        self.weapons = self.equipped_weapons
         self.skills: set[str] = set()
-        self.inventory: Bag[Item] = Bag(10)
+        self.inventory: Bag[Item] = Bag(20)
 
         self.stats: dict[str, int] = {
             "strength": 10,
             "defense": 10,
-            "agility": 5,
+            "dexterity": 10,
+            "intelligence": 10,
         }
         self.kill_counts: Counter[str] = Counter()
-        self.kill_counter: Counter[str] = Counter()
+        self.kill_counter: Counter[str] = self.kill_counts
         self._item_registry: defaultdict[str, list[Item]] = defaultdict(list)
         self.combat_log: deque[str] = deque(maxlen=10)
+
+        def __str__(self) -> str:
+         return (
+            f"Hero: {self.name} |"
+            f" Class: {self.hero_class} |"
+            f" Health: {self.health}/{self.max_health}"
+        )
 
     # ── Health ────────────────────────────────────────────────────────────────
 
@@ -88,10 +97,12 @@ class Hero:
         Returns:
             True if equipped; False if weapon slots are full.
         """
-        if len(self.weapons) >= 3:
-            return False
-        self.weapons.append(weapon)
-        return True
+        success = self.weapons.add(weapon)
+        if success:
+            self.combat_log.append(
+                f"{self.name} equipped {weapon.name}"
+            )
+        return success
 
     def learn_skill(self, skill: str) -> bool:
         """
@@ -117,7 +128,7 @@ class Hero:
         success: bool = self.inventory.add(item)
         if success:
             self.combat_log.append(
-                f"(self.name) picked up {item.name} ({item.item_type.name})"
+                f"{self.name} picked up {item.name} ({item.item_type.name})"
             )
         return success
 
