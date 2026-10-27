@@ -114,7 +114,13 @@ class Hero:
         Returns:
             True if added; False if inventory is full.
         """
-        pass
+        success: bool = self.inventory.add(item)
+        if success:
+            self.combat_log.append(
+                f"(self.name) picked up {item.name} ({item.item_type.name})"
+            )
+        return success
+
 
     def items_by_type(self) -> dict[str, list[Item]]:
         """
@@ -130,7 +136,8 @@ class Hero:
         Record defeating an enemy.
         Counter accumulates each enemy type; no manual initialization needed.
         """
-        pass
+        self.kill_counts[enemy_type] += 1
+        
 
     def total_damage_potential(self) -> int:
         """Sum damage of all currently equipped weapons."""
@@ -141,7 +148,7 @@ class Hero:
         Return the top N most-killed enemy types.
         Counter.most_common() returns them in descending order of count.
         """
-        pass
+        return self.kill_counts.most_common(n)
 
     # ── Stats ─────────────────────────────────────────────────────────────────
 
