@@ -127,7 +127,10 @@ class Hero:
         Return items grouped by ItemType name as a plain dict copy.
         Callers cannot mutate the internal defaultdict directly.
         """
-        pass
+        items = defaultdict(list)
+        for item in self.inventory.all():
+            items[item.item_type.name].append(item)
+        return dict(items)
 
     # ── Combat & Kill Tracking ────────────────────────────────────────────────
 
@@ -136,6 +139,7 @@ class Hero:
         Record defeating an enemy.
         Counter accumulates each enemy type; no manual initialization needed.
         """
+        self.combat_log.append(f"{self.name} defeated a {enemy_type}")
         self.kill_counts[enemy_type] += 1
         
 
