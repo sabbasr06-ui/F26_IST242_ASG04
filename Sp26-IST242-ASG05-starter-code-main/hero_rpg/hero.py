@@ -45,8 +45,9 @@ class Hero:
         self.stats: dict[str, int] = {
             "strength": 10,
             "defense": 10,
-            "dexterity": 10,
-            "intelligence": 10,
+            "agility": 5,
+            "dexterity": 5,
+            "intelligence": 5,
         }
         self.kill_counts: Counter[str] = Counter()
         self.kill_counter: Counter[str] = self.kill_counts
@@ -71,7 +72,11 @@ class Hero:
         """
         old_health = self.health
         self.health = max(0, self.health - amount)
-        return old_health - self.health
+        actual_damage = old_health - self.health
+        self.combat_log.append(
+            f"{self.name} took {actual_damage} damage"
+        )
+        return actual_damage
 
     def heal(self, amount: int) -> int:
         """
@@ -82,7 +87,11 @@ class Hero:
         """
         old_health = self.health
         self.health = min(self.max_health, self.health + amount)
-        return self.health - old_health
+        actual_healing = self.health - old_health
+        self.combat_log.append(
+            f"{self.name} healed {actual_healing} HP"
+        )
+        return actual_healing
 
     def is_alive(self) -> bool:
         """Return True as long as health is above zero."""
