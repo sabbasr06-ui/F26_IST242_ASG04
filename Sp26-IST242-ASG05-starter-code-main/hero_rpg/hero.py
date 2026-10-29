@@ -37,17 +37,16 @@ class Hero:
         self.max_health = max_health
         self.health = max_health
 
-        self.equipped_weapons: list[Weapon] = Bag(3)
+        self.equipped_weapons: Bag[Weapon] = Bag(3)
         self.weapons = self.equipped_weapons
         self.skills: set[str] = set()
         self.inventory: Bag[Item] = Bag(20)
 
         self.stats: dict[str, int] = {
             "strength": 10,
-            "defense": 10,
-            "agility": 5,
-            "dexterity": 5,
-            "intelligence": 5,
+            "defense": 5,
+            "dexterity": 10,
+            "intelligence": 10,
         }
         self.kill_counts: Counter[str] = Counter()
         self.kill_counter: Counter[str] = self.kill_counts
@@ -148,8 +147,9 @@ class Hero:
         Callers cannot mutate the internal defaultdict directly.
         """
         items = defaultdict(list)
+        
         for item in self.inventory.all():
-            items[item.item_type.name].append(item)
+            items[item.item_type.value].append(item)
         return dict(items)
 
     # ── Combat & Kill Tracking ────────────────────────────────────────────────
@@ -187,7 +187,7 @@ class Hero:
         Returns:
             True if stat exists and was upgraded; False if key not found.
         """
-        if stat not in self.stats or amount <= 0:
+        if stat not in self.stats:
             return False
 
         self.stats[stat] += amount
